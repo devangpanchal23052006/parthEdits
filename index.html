@@ -1,0 +1,207 @@
+<html>
+
+<head>
+  <title>Swipe Cards</title>
+  <style>
+    .card-container {
+      position: relative;
+      width: 500px;
+      height: 550px;
+      margin: 50px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      position: absolute;
+      width: 300px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .card.swiped-left {
+      transform: translateX(-100%);
+    }
+
+    .card.swiped-right {
+      transform: translateX(100%);
+    }
+
+    .card img {
+      height: 200px;
+      width: 300px;
+      border-radius: 5px;
+    }
+
+    .card1 {
+      background-color: #FFF3F1;
+      z-index: 3;
+      transform: translateX(0px);
+    }
+
+    .card2 {
+      background-color: #F2FBF7;
+      z-index: 2;
+      transform: translateX(120px) translateY(40px) rotate(8deg);
+      opacity: 0.7;
+    }
+
+    .card3 {
+      background-color: #F5F7FF;
+      z-index: 1;
+      transform: translateX(-120px) translateY(40px) rotate(-8deg);
+      opacity: 0.7;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card2:hover {
+      transform: translateX(120px) translateY(40px) rotate(8deg) scale(1.05);
+      opacity: 1;
+    }
+
+    .card3:hover {
+      transform: translateX(-120px) translateY(40px) rotate(-8deg) scale(1.05);
+      opacity: 1;
+    }
+
+    /* Transition animation class */
+    .card.transitioning {
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), z-index 0.6s ease;
+    }
+
+    /* Position classes for card arrangements */
+    .card.position-front {
+      z-index: 3;
+      opacity: 1;
+      transform: translateX(0px) rotate(0deg);
+    }
+
+    .card.position-right {
+      z-index: 2;
+      transform: translateX(120px) translateY(40px) rotate(8deg);
+      opacity: 0.7;
+    }
+
+    .card.position-left {
+      z-index: 1;
+      transform: translateX(-120px) translateY(40px) rotate(-8deg);
+      opacity: 0.7;
+    }
+
+    /* Hover effects for positioned cards */
+    .card.position-front:hover {
+      transform: translateX(0px) rotate(0deg) scale(1.05);
+    }
+
+    .card.position-right:hover {
+      transform: translateX(120px) translateY(40px) rotate(8deg) scale(1.05);
+      opacity: 1;
+    }
+
+    .card.position-left:hover {
+      transform: translateX(-120px) translateY(40px) rotate(-8deg) scale(1.05);
+      opacity: 1;
+    }
+
+    /* Add some visual feedback for clickable cards */
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="text-align: center; margin-top: 50px; font-size: 3rem;">swipe card animation</h1>
+
+  <div class="card-container">
+    <div class="card card1">
+      <h4>Get Job Opportunities in our Partner Companies</h4>
+      <p>Access exclusive job listings from our partners. Choose where you want to work and apply with a wide range of
+        Job Listings. These Jobs are exclusively for students of Editing Skool in our Partner Companies!</p>
+      <img src="img/card1.webp" alt="card1 img">
+    </div>
+    <div class="card card2">
+      <h4>Build Partnerships inside our Private Community</h4>
+      <p>
+        Join our Private Community of desi creatives from India and Pakistan. Get instant access to Weekly Zoom meetings
+        where you build bonds, partnerships, and even long lasting friendships with like minded people.
+      </p>
+      <img src="img/card2.webp" alt="card2 img">
+    </div>
+    <div class="card card3">
+      <h4>Learn Advanced Editing with Zero Knowledge</h4>
+      <p>Editing Skool students are from every level. So even if you never used a Video Editing Software, or you are a
+        seasoned pro, this Masterclass & Community will get you to become a Top 1% Editor.</p>
+      <img src="img/card3.jpg" alt="card3 img">
+    </div>
+  </div>
+
+  <script>
+    let currentCard = 1; // Track which card is currently in front (1, 2, or 3)
+
+    // Get all cards
+    const card1 = document.querySelector('.card1');
+    const card2 = document.querySelector('.card2');
+    const card3 = document.querySelector('.card3');
+
+    // Add click event listeners to all cards
+    card1.addEventListener('click', () => swipeToCard(1));
+    card2.addEventListener('click', () => swipeToCard(2));
+    card3.addEventListener('click', () => swipeToCard(3));
+
+    function swipeToCard(targetCard) {
+      if (currentCard === targetCard) return; // Don't do anything if clicking the current front card
+
+      // Remove all existing position classes
+      card1.className = 'card card1';
+      card2.className = 'card card2';
+      card3.className = 'card card3';
+
+      // Add transition animation class
+      card1.classList.add('transitioning');
+      card2.classList.add('transitioning');
+      card3.classList.add('transitioning');
+
+      // Set new positions based on target card
+      if (targetCard === 1) {
+        // Card 1 becomes front, card 2 goes to right back, card 3 goes to left back
+        card1.classList.add('position-front');
+        card2.classList.add('position-right');
+        card3.classList.add('position-left');
+      } else if (targetCard === 2) {
+        // Card 2 becomes front, card 1 goes to left back, card 3 goes to right back
+        card2.classList.add('position-front');
+        card1.classList.add('position-left');
+        card3.classList.add('position-right');
+      } else if (targetCard === 3) {
+        // Card 3 becomes front, card 1 goes to right back, card 2 goes to left back
+        card3.classList.add('position-front');
+        card1.classList.add('position-right');
+        card2.classList.add('position-left');
+      }
+
+      currentCard = targetCard;
+
+      // Remove transition class after animation completes
+      setTimeout(() => {
+        card1.classList.remove('transitioning');
+        card2.classList.remove('transitioning');
+        card3.classList.remove('transitioning');
+      }, 600);
+    }
+  </script>
+</body>
+
+</html>
